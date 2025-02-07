@@ -17,7 +17,7 @@ const options = {
                 url: `http://localhost:${process.env.PORT || 3000}`,
             },
             {
-                url: 'https://api.ibreakstuff.upayan.dev',
+                url: 'api.ibreakstuff.uayan.dev',
             }
         ],
         components: {
@@ -27,7 +27,7 @@ const options = {
                     properties: {
                         intersection: {
                             type: "integer",
-                            example: 101,
+                            example: 2,
                         },
                         road: {
                             type: "string",
@@ -36,7 +36,19 @@ const options = {
                         },
                         cars: {
                             type: "integer",
-                            example: 10,
+                            example: 12,
+                        },
+                        ambulances: {
+                            type: "integer",
+                            example: 2,
+                        },
+                        schoolbuses: {
+                            type: "integer",
+                            example: 1,
+                        },
+                        accidents: {
+                            type: "integer",
+                            example: 0,
                         },
                         signal: {
                             type: "string",
@@ -44,13 +56,14 @@ const options = {
                             example: "green",
                         },
                     },
-                    required: ["intersection", "road", "cars", "signal"],
+                    required: ["intersection", "road", "cars", "signal", "ambulances", "schoolbuses", "accidents"],
                 },
             },
         },
     },
     apis: ["./routes/*.js"],
 };
+
 const swaggerSpec = swaggerJsdoc(options);
 
 function setupSwagger(app) {
@@ -59,4 +72,4 @@ function setupSwagger(app) {
 
 export {
     setupSwagger,
-}
+};

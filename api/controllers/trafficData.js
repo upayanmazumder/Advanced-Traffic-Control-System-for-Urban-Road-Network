@@ -8,10 +8,10 @@ async function getTrafficData(req, res) {
         if (intersection) {
             response = await Signal.where("intersection").equals(intersection)
                 .find()
-                .select("intersection road cars signal -_id");
+                .select("intersection road cars ambulances schoolbuses accidents signal -_id");
         } else {
             response = await Signal.find()
-                .select("intersection road cars signal -_id");
+                .select("intersection road cars ambulances schoolbuses accidents signal -_id");
         }
         if (response.length === 0) {
             return res.status(404).json({
@@ -47,7 +47,7 @@ async function setTrafficData(req, res) {
             updateOne: {
                 filter: { intersection: signal.intersection, road: signal.road },
                 update: { 
-                    $set: { cars: signal.cars, signal: signal.signal } // Update both fields
+                    $set: { cars: signal.cars, ambulances: signal.ambulances, schoolbuses: signal.schoolbuses, accidents: signal.accidents, signal: signal.signal } // Update all fields
                 },
                 upsert: true, // Insert if not found
             }
