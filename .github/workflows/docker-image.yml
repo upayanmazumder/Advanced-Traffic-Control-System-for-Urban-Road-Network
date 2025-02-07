@@ -1,0 +1,34 @@
+name: Build the API Docker Image
+
+on:
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - "app/**"
+  pull_request:
+    branches: ["main"]
+    paths-ignore:
+      - "app/**"
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build ./api --tag ghcr.io/upayanmazumder/Advanced-Traffic-Control-System-for-Urban-Road-Network/api:latest --build-arg NODE_ENV=production
+          docker push ghcr.io/upayanmazumder/Advanced-Traffic-Control-System-for-Urban-Road-Network/api:latest
