@@ -34,5 +34,5 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build ./api --tag ghcr.io/upayanmazumder/Advanced-Traffic-Control-System-for-Urban-Road-Network/api:latest --build-arg NODE_ENV=production
-          docker push ghcr.io/upayanmazumder/Advanced-Traffic-Control-System-for-Urban-Road-Network/api:latest
+          docker build ./api --tag ghcr.io/upayanmazumder/advanced-traffic-control-system-for-urban-road-network/api:latest --build-arg NODE_ENV=production
+          docker push ghcr.io/upayanmazumder/advanced-traffic-control-system-for-urban-road-network/api:latest
