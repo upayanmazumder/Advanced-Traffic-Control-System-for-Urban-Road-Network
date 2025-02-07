@@ -17,7 +17,7 @@ const options = {
                 url: `http://localhost:${process.env.PORT || 3000}`,
             },
             {
-                url: 'api.ibreakstuff.uayan.dev',
+                url: 'https://api.ibreakstuff.upayan.dev',
             }
         ],
         components: {
