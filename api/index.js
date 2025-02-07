@@ -1,7 +1,11 @@
 import express from "express";
+import { config } from "dotenv";
 import morgan from "morgan";
+import mongoose from "mongoose";
 
 import trafficRoutes from "./routes/traffic.js";
+
+config();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,6 +20,11 @@ app.get("/", (req, res) => {
 
 app.use("/traffic", trafficRoutes);
 
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
-});
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Server running at http://localhost:${port}`);
+    });
+  })
+  .catch((error) => console.log(error.message));
