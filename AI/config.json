@@ -1,0 +1,22 @@
+{
+    "grid": {
+      "rows": 2,
+      "cols": 3,
+      "roi_width": 295,
+      "roi_height": 170,
+      "spacing_x": 300,
+      "spacing_y": 180,
+      "start_x": 0,
+      "start_y": 0,
+      "intersection_gap_x": 50,
+      "intersection_gap_y": 50
+    },
+    "min_phase_duration": 5,
+    "adjacency": {
+      "1": "2",
+      "2": "3",
+      "4": "5",
+      "5": "6"
+    }
+  }
+  
