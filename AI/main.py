@@ -1,16 +1,13 @@
 import cv2
 import json
 import time
-import argparse
 from model import VehicleDetector
-from algorithm import optimize_intersections
+from algorithm import optimize_intersections  
 from utils import draw_roi, draw_detections
-
 
 def load_config(path="config.json"):
     with open(path, "r") as f:
         return json.load(f)
-
 
 def compute_intersections_from_grid(grid_config, frame_width, frame_height):
     """
@@ -19,8 +16,8 @@ def compute_intersections_from_grid(grid_config, frame_width, frame_height):
     to its cell's base position. The image is equally divided into six intersections.
     """
     intersections = {}
-    rows = grid_config["rows"]
-    cols = grid_config["cols"]
+    rows = grid_config["rows"]  
+    cols = grid_config["cols"]  
     roi_width = grid_config["roi_width"]
     roi_height = grid_config["roi_height"]
     start_x = grid_config["start_x"]
@@ -37,30 +34,20 @@ def compute_intersections_from_grid(grid_config, frame_width, frame_height):
             base_y = row * cell_height
             intersections[str(inter_id)] = {
                 "roads": {
-                    "north": [int(base_x + cell_width / 2 - roi_width / 2),
-                              int(base_y + cell_height / 4 - roi_height / 2), roi_width, roi_height],
-                    "south": [int(base_x + cell_width / 2 - roi_width / 2),
-                              int(base_y + 3 * cell_height / 4 - roi_height / 2), roi_width, roi_height],
-                    "east": [int(base_x + 3 * cell_width / 4 - roi_width / 2),
-                             int(base_y + cell_height / 2 - roi_height / 2), roi_width, roi_height],
-                    "west": [int(base_x + cell_width / 4 - roi_width / 2),
-                             int(base_y + cell_height / 2 - roi_height / 2), roi_width, roi_height]
+                    "north": [int(base_x + cell_width / 2 - roi_width / 2), int(base_y + cell_height / 4 - roi_height / 2), roi_width, roi_height],
+                    "south": [int(base_x + cell_width / 2 - roi_width / 2), int(base_y + 3 * cell_height / 4 - roi_height / 2), roi_width, roi_height],
+                    "east": [int(base_x + 3 * cell_width / 4 - roi_width / 2), int(base_y + cell_height / 2 - roi_height / 2), roi_width, roi_height],
+                    "west": [int(base_x + cell_width / 4 - roi_width / 2), int(base_y + cell_height / 2 - roi_height / 2), roi_width, roi_height]
                 }
             }
             inter_id += 1
     return intersections
 
-
 def main():
-    parser = argparse.ArgumentParser(description="Smart Traffic Management System")
-    parser.add_argument("--output", choices=["video", "console"], default="video",
-                        help="Output method: 'video' for displaying video output, 'console' for console output only")
-    args = parser.parse_args()
-
     config = load_config("config.json")
-    # video_path = "data/sample_video5.mp4"
-    # cap = cv2.VideoCapture(video_path)
-    cap = cv2.VideoCapture(1)  # Changed from video path to default camera
+    video_path = "data/sample_video4.mp4"
+    cap = cv2.VideoCapture(video_path)
+    # cap = cv2.VideoCapture(1)
     if not cap.isOpened():
         print("Error: Could not open video.")
         return
@@ -75,6 +62,10 @@ def main():
     else:
         intersections_config = config.get("intersections", {})
 
+    # Create a full screen window.
+    cv2.namedWindow("Smart Traffic Management System", cv2.WINDOW_NORMAL)
+    cv2.setWindowProperty("Smart Traffic Management System", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+
     detector = VehicleDetector()
 
     # Option to upscale the frame:
@@ -82,13 +73,8 @@ def main():
 
     # For minimum phase duration logic:
     min_phase_duration = config.get("min_phase_duration", 5)  # seconds
-    last_phase_state = {}  # intersection -> phase ("A" or "B")
-    last_phase_switch_time = {}  # intersection -> timestamp of last change
-
-    # Create a full screen window only if video output is selected
-    if args.output == "video":
-        cv2.namedWindow("Smart Traffic Management System", cv2.WINDOW_NORMAL)
-        cv2.setWindowProperty("Smart Traffic Management System", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    last_phase_state = {}          # intersection -> phase ("A" or "B")
+    last_phase_switch_time = {}    # intersection -> timestamp of last change
 
     while True:
         ret, frame = cap.read()
@@ -110,12 +96,12 @@ def main():
 
                 # Ensure the ROI coordinates are within the frame dimensions.
                 # Also, check that width and height are non-zero.
-                if w <= 0 or h <= 0 or y < 0 or x < 0 or y + h > frame.shape[0] or x + w > frame.shape[1]:
+                if w <= 0 or h <= 0 or y < 0 or x < 0 or y+h > frame.shape[0] or x+w > frame.shape[1]:
                     print(f"Skipping invalid ROI for Intersection {inter_no}, Road {road_no}")
                     traffic_data[inter_no][road_no] = 0
                     continue
 
-                roi_frame = frame[y:y + h, x:x + w]
+                roi_frame = frame[y:y+h, x:x+w]
 
                 # Additionally check if the ROI frame is empty.
                 if roi_frame.size == 0:
@@ -125,10 +111,9 @@ def main():
 
                 detections, count = detector.detect_vehicles(roi_frame)
                 traffic_data[inter_no][road_no] = count
-                # draw_detections(roi_frame, detections)  # Commented out draw_detections
-
+                draw_detections(roi_frame, detections)
                 # Replace the processed ROI in the full frame.
-                frame[y:y + h, x:x + w] = roi_frame
+                frame[y:y+h, x:x+w] = roi_frame
 
         # Compute optimization from traffic data.
         output_signals, computed_phases = optimize_intersections(traffic_data, config)
@@ -178,29 +163,27 @@ def main():
                     "signal": signal
                 })
 
-        if args.output == "console":
-            print(final_output_signals)  # Print to console
-        elif args.output == "video":
-            # Draw the ROIs and the traffic signal status.
-            for inter_no, inter_data in intersections_config.items():
-                roads_config = inter_data.get("roads", {})
-                for road_no, roi in roads_config.items():
-                    x, y, w, h = [int(coord * scale_factor) for coord in roi]
-                    count = traffic_data[inter_no].get(road_no, 0)
-                    # Find the corresponding signal decision.
-                    decision = next((item for item in final_output_signals
-                                     if item["intersection"] == inter_no and item["road"] == road_no), None)
-                    signal = decision["signal"] if decision else "UNKNOWN"
-                    draw_roi(frame, (x, y, w, h), inter_no, road_no, count, signal)
+        # (For demonstration, print the final decisions.)
+        print(final_output_signals)
 
-            cv2.imshow("Smart Traffic Management System", frame)
-            if cv2.waitKey(30) & 0xFF == ord('q'):
-                break
+        # Draw the ROIs and the traffic signal status.
+        for inter_no, inter_data in intersections_config.items():
+            roads_config = inter_data.get("roads", {})
+            for road_no, roi in roads_config.items():
+                x, y, w, h = [int(coord * scale_factor) for coord in roi]
+                count = traffic_data[inter_no].get(road_no, 0)
+                # Find the corresponding signal decision.
+                decision = next((item for item in final_output_signals
+                                 if item["intersection"] == inter_no and item["road"] == road_no), None)
+                signal = decision["signal"] if decision else "UNKNOWN"
+                draw_roi(frame, (x, y, w, h), inter_no, road_no, count, signal)
+
+        cv2.imshow("Smart Traffic Management System", frame)
+        if cv2.waitKey(30) & 0xFF == ord('q'):
+            break
 
     cap.release()
-    if args.output == "video":
-        cv2.destroyAllWindows()
-
+    cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     main()
