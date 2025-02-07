@@ -5,10 +5,14 @@ on:
     branches: ["main"]
     paths-ignore:
       - "app/**"
+      - "AI/**"
+      - "ELectronics/**"
   pull_request:
     branches: ["main"]
     paths-ignore:
       - "app/**"
+      - "AI/**"
+      - "ELectronics/**"
 
 permissions:
   contents: read
