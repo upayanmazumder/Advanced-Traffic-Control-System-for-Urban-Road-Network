@@ -1,7 +1,7 @@
 import Signal from "../models/SignalData.js";
 
 async function getTrafficData(req, res) {
-    const { intersection } = req.body;
+    const { intersection } = req.query;
 
     try {
         var response;
