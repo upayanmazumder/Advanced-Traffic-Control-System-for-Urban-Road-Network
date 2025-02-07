@@ -1,4 +1,4 @@
 services:
   backend:
-    image: ghcr.io/upayanmazumder/Advanced-Traffic-Control-System-for-Urban-Road-Network/api:latest
+    image: ghcr.io/upayanmazumder/advanced-traffic-control-system-for-urban-road-network/api:latest
     build: .
