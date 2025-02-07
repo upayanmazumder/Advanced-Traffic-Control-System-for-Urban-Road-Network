@@ -2,7 +2,7 @@ import cv2
 import json
 import time
 from model import VehicleDetector
-from algorithm import optimize_intersections  # our optimization function
+from algorithm import optimize_intersections  
 from utils import draw_roi, draw_detections
 
 def load_config(path="config.json"):
@@ -16,8 +16,8 @@ def compute_intersections_from_grid(grid_config, frame_width, frame_height):
     to its cell's base position. The image is equally divided into six intersections.
     """
     intersections = {}
-    rows = grid_config["rows"]  # Should be 2
-    cols = grid_config["cols"]  # Should be 3
+    rows = grid_config["rows"]  
+    cols = grid_config["cols"]  
     roi_width = grid_config["roi_width"]
     roi_height = grid_config["roi_height"]
     start_x = grid_config["start_x"]
@@ -30,11 +30,8 @@ def compute_intersections_from_grid(grid_config, frame_width, frame_height):
     inter_id = 1
     for row in range(rows):
         for col in range(cols):
-            # Determine the base position for this intersection (top-left corner of the cell)
             base_x = col * cell_width
             base_y = row * cell_height
-
-            # Define roads relative to the base position
             intersections[str(inter_id)] = {
                 "roads": {
                     "north": [int(base_x + cell_width / 2 - roi_width / 2), int(base_y + cell_height / 4 - roi_height / 2), roi_width, roi_height],
@@ -48,8 +45,9 @@ def compute_intersections_from_grid(grid_config, frame_width, frame_height):
 
 def main():
     config = load_config("config.json")
-    video_path = "data/sample_video5.mp4"
+    video_path = "data/sample_video4.mp4"
     cap = cv2.VideoCapture(video_path)
+    #cap = cv2.VideoCapture(1) for webcam
     if not cap.isOpened():
         print("Error: Could not open video.")
         return
@@ -71,7 +69,7 @@ def main():
     detector = VehicleDetector()
 
     # Option to upscale the frame:
-    scale_factor = 1  # Adjust as needed based on your video resolution.
+    scale_factor = 2  # Adjust as needed based on your video resolution.
 
     # For minimum phase duration logic:
     min_phase_duration = config.get("min_phase_duration", 5)  # seconds

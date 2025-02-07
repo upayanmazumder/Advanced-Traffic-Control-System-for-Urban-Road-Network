@@ -1,4 +1,4 @@
 opencv-python
 ultralytics
 numpy
-json
+json5
