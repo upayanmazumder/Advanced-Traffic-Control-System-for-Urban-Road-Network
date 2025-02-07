@@ -58,6 +58,8 @@ def main():
     args = parser.parse_args()
 
     config = load_config("config.json")
+    # video_path = "data/sample_video5.mp4"
+    # cap = cv2.VideoCapture(video_path)
     cap = cv2.VideoCapture(1)  # Changed from video path to default camera
     if not cap.isOpened():
         print("Error: Could not open video.")
