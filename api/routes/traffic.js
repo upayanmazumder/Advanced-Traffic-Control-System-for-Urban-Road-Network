@@ -40,18 +40,30 @@ const router = express.Router();
  *                 - intersection: 2
  *                   road: "north"
  *                   cars: 12
+ *                   ambulances: 2
+ *                   schoolbuses: 1
+ *                   accidents: 0
  *                   signal: "green"
  *                 - intersection: 2
  *                   road: "south"
  *                   cars: 8
+ *                   ambulances: 0
+ *                   schoolbuses: 2
+ *                   accidents: 1
  *                   signal: "red"
  *                 - intersection: 2
  *                   road: "east"
  *                   cars: 5
+ *                   ambulances: 1
+ *                   schoolbuses: 0
+ *                   accidents: 0
  *                   signal: "yellow"
  *                 - intersection: 2
  *                   road: "west"
  *                   cars: 3
+ *                   ambulances: 1
+ *                   schoolbuses: 0
+ *                   accidents: 0
  *                   signal: "green"
  *       404:
  *         description: No traffic data found for the given intersection
@@ -86,7 +98,19 @@ router.get("/signal-data", getTrafficData);
  *                   intersection: 2,
  *                   road: "north",
  *                   cars: 12,
+ *                   ambulances: 2,
+ *                   schoolbuses: 1,
+ *                   accidents: 0,
  *                   signal: "green"
+ *                 },
+ *                 {
+ *                   intersection: 2,
+ *                   road: "south",
+ *                   cars: 8,
+ *                   ambulances: 0,
+ *                   schoolbuses: 2,
+ *                   accidents: 1,
+ *                   signal: "red"
  *                 }
  *               ]
  *     responses:

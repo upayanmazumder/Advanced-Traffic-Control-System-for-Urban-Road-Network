@@ -17,6 +17,21 @@ const SignalSchema = new mongoose.Schema(
             min: 0,
             required: true,
         },
+        ambulances: {
+            type: Number,
+            min: 0,
+            required: true,
+        },
+        schoolbuses: {
+            type: Number,
+            min: 0,
+            required: true,
+        },
+        accidents: {
+            type: Number,
+            min: 0,
+            required: true,
+        },
         signal: {
             type: String,
             enum: ['green', 'yellow', 'red'],
