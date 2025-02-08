@@ -1,4 +1,28 @@
-import RPi.GPIO as GPIO
+import time
+import pins
+
+def main():
+    """Main function to handle user interaction."""
+    try:
+        pins.startup_sequence()
+        while True:
+            user_input = input("Enter pin position (e.g., 1A, 2B) to toggle or 'q' to quit: ").upper()
+            if user_input == 'Q':
+                break
+            elif user_input in pins.PIN_CONFIG:
+                pins.set_pin(user_input, True)
+                time.sleep(1)
+                pins.set_pin(user_input, False)
+            else:
+                print("Invalid input. Please enter a valid pin position.")
+    except KeyboardInterrupt:
+        print("\nProgram interrupted.")
+    finally:
+        pins.cleanup()
+        print("GPIO cleaned up. Goodbye!")
+
+if __name__ == "__main__":
+    main()import RPi.GPIO as GPIO
 import time
 
 # Define GPIO pins in a structured way
@@ -46,11 +70,11 @@ def startup_sequence():
         GPIO.output(PIN_CONFIG[f"{row}B"], GPIO.LOW)
 
     # Test each pin one by one
-    for position in PIN_CONFIG.keys():
-        GPIO.output(PIN_CONFIG[position], GPIO.HIGH)
-        time.sleep(1)
-        GPIO.output(PIN_CONFIG[position], GPIO.LOW)
-        time.sleep(0.5)
+    # for position in PIN_CONFIG.keys():
+    #    GPIO.output(PIN_CONFIG[position], GPIO.HIGH)
+    #    time.sleep(1)
+    #    GPIO.output(PIN_CONFIG[position], GPIO.LOW)
+    #    time.sleep(0.5)
 
 if __name__ == "__main__":
     try:
