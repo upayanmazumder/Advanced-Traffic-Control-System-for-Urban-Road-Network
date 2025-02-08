@@ -6,7 +6,7 @@ class VehicleDetector:
     def __init__(self, model_path='models/best.pt'):
         self.model_path = os.path.join(os.getcwd(), model_path)
         self.model = YOLO(self.model_path)
-        
+
     def detect_vehicles(self, frame):
         results = self.model(frame)
         detections = []
@@ -14,8 +14,10 @@ class VehicleDetector:
             for box in result.boxes:
                 x1, y1, x2, y2 = map(int, box.xyxy[0])
                 conf = float(box.conf[0])
-                # Only consider detections with sufficient confidence (adjust threshold if needed)
-                if conf < 0.3:
+                cls = int(box.cls[0])
+                class_names = {0: 'accident', 1: 'ambulance', 2: 'car', 3: 'schoolbus'}
+                class_name = class_names.get(cls, 'unknown')
+                if conf < 0.7:
                     continue
-                detections.append((x1, y1, x2, y2))
-        return detections, len(detections)
+                detections.append({'bbox': (x1, y1, x2, y2), 'confidence': conf, 'class': class_name})
+        return detections

@@ -59,15 +59,16 @@ def startup_sequence():
     # Turn off all LEDs for 1 second
     for pin in PIN_CONFIG.values():
         GPIO.output(pin, GPIO.LOW)
-    time.sleep(0.5)
+    time.sleep(1)
 
-    # Switch the pins from 1 to 7
-    for row in range(1, 7):
-        GPIO.output(PIN_CONFIG[f"{row}A"], GPIO.HIGH)
-        GPIO.output(PIN_CONFIG[f"{row}B"], GPIO.HIGH)
-        time.sleep(0.5)
-        GPIO.output(PIN_CONFIG[f"{row}A"], GPIO.LOW)
-        GPIO.output(PIN_CONFIG[f"{row}B"], GPIO.LOW)
+    # Turn each column on for 2 seconds and off for 1 second
+    for col in ['A', 'B']:
+        for row in range(1, 7):
+            GPIO.output(PIN_CONFIG[f'{row}{col}'], GPIO.HIGH)
+        time.sleep(2)
+        for row in range(1, 7):
+            GPIO.output(PIN_CONFIG[f'{row}{col}'], GPIO.LOW)
+        time.sleep(1)
 
     # Test each pin one by one
     # for position in PIN_CONFIG.keys():
