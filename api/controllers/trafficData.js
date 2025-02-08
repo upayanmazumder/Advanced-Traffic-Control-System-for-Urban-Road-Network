@@ -1,5 +1,35 @@
 import Signal from "../models/SignalData.js";
 
+function transformData(data) {
+    let result = {};
+    let count = 0;
+
+    data.forEach(({ intersection, road, cars, ambulances, schoolbuses, accidents, signal }) => {
+        if (!result[intersection]) {
+            count++;
+            result[intersection] = {
+                vehicles: {}
+            };
+        }
+
+        if (!result[intersection].green) {
+            if (road === "north" || road === "south") {
+                result[intersection].green = (signal === "GREEN")?'n-s':'e-w';
+            } else {
+                result[intersection].green = (signal === "GREEN")?'e-w':'n-s';
+            }
+        }
+        
+        console.log({ cars, ambulances, schoolbuses, accidents});
+        result[intersection].vehicles[road] = { cars, ambulances, schoolbuses, accidents };
+    });
+    
+    return {
+        intersections: count,
+        data: result,
+    };
+}
+
 async function getTrafficData(req, res) {
     const { intersection } = req.query;
 
@@ -15,14 +45,10 @@ async function getTrafficData(req, res) {
         }
         if (response.length === 0) {
             return res.status(404).json({
-                rows: 0,
-                data: [],
+                intersections: 0,
             });
         } else {
-            return res.json({
-                rows: response.length,
-                data: response,
-            });
+            return res.json(transformData(response));
         }
     } catch (error) {
         res.status(500).json({
@@ -45,7 +71,7 @@ async function setTrafficData(req, res) {
     try {
         const bulkOps = data.map(signal => ({
             updateOne: {
-                filter: { intersection: signal.intersection, road: signal.road },
+                filter: { intersection: signal.intersection, road: signal.road, manuallyOverridden: false },
                 update: { 
                     $set: { cars: signal.cars, ambulances: signal.ambulances, schoolbuses: signal.schoolbuses, accidents: signal.accidents, signal: signal.signal } // Update all fields
                 },

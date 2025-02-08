@@ -37,6 +37,11 @@ const SignalSchema = new mongoose.Schema(
             enum: ['green', 'yellow', 'red'],
             required: true,
         },
+        manuallyOverridden: {
+            type: Boolean,
+            default: false,
+            required: true,
+        },
     },
 );
 
