@@ -4,23 +4,23 @@ function transformData(data) {
     let result = {};
     let count = 0;
 
-    data.forEach(({ intersection, road, cars, ambulances, schoolbuses, accidents, signal }) => {
+    data.forEach(({ intersection, location, road, cars, ambulances, schoolbuses, accidents, signal }) => {
         if (!result[intersection]) {
             count++;
             result[intersection] = {
+                location,
                 vehicles: {}
             };
         }
 
-        if (!result[intersection].green) {
+        if (!result[intersection].green && signal) {
             if (road === "north" || road === "south") {
                 result[intersection].green = (signal === "GREEN")?'n-s':'e-w';
-            } else {
+            } else if (road === "east" || road === "west") {
                 result[intersection].green = (signal === "GREEN")?'e-w':'n-s';
             }
         }
         
-        console.log({ cars, ambulances, schoolbuses, accidents});
         result[intersection].vehicles[road] = { cars, ambulances, schoolbuses, accidents };
     });
     
@@ -38,10 +38,10 @@ async function getTrafficData(req, res) {
         if (intersection) {
             response = await Signal.where("intersection").equals(intersection)
                 .find()
-                .select("intersection road cars ambulances schoolbuses accidents signal -_id");
+                .select("intersection location road cars ambulances schoolbuses accidents signal -_id");
         } else {
             response = await Signal.find()
-                .select("intersection road cars ambulances schoolbuses accidents signal -_id");
+                .select("intersection location road cars ambulances schoolbuses accidents signal -_id");
         }
         if (response.length === 0) {
             return res.status(404).json({
@@ -75,8 +75,8 @@ async function setTrafficData(req, res) {
                 update: { 
                     $set: { cars: signal.cars, ambulances: signal.ambulances, schoolbuses: signal.schoolbuses, accidents: signal.accidents, signal: signal.signal } // Update all fields
                 },
-                upsert: true, // Insert if not found
-            }
+                upsert: false, //donot insert if not found
+            },
         }));
         await Signal.bulkWrite(bulkOps);
 

@@ -3,8 +3,9 @@ import { config } from "dotenv";
 import morgan from "morgan";
 import mongoose from "mongoose";
 
-import { setupSwagger } from "./swagger.js";
 import trafficRoutes from "./routes/traffic.js";
+import adminRoutes from "./routes/admin.js";
+import authRoutes from "./routes/auth.js";
 
 config();
 
@@ -15,13 +16,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('tiny'));
 
-setupSwagger(app);
-
 app.get("/", (req, res) => {
     res.send("Hello World");
 });
 
 app.use("/traffic", trafficRoutes);
+app.use("/admin", adminRoutes);
+app.use("/auth", authRoutes);
 
 mongoose
   .connect(process.env.MONGO_URL)
