@@ -9,12 +9,17 @@ export default function MapGrid() {
   const totalCells = rows * cols;
 
   const [grid, setGrid] = useState([]);
+  const [trafficData, setTrafficData] = useState({});
 
   useEffect(() => {
     setGrid(Array.from({ length: totalCells }, (_, index) => index));
+
+    fetch('https://api.ibreakstuff.upayan.dev/traffic/signal-data')
+      .then((res) => res.json())
+      .then((data) => setTrafficData(data.data || {}))
+      .catch((err) => console.error('Error fetching traffic data:', err));
   }, []);
 
-  // Function to check if a button is on the boundary
   const isBoundary = (index) => {
     const row = Math.floor(index / cols);
     const col = index % cols;
@@ -24,27 +29,46 @@ export default function MapGrid() {
   return (
     <div className={styles.gridContainer}>
       {grid.map((index) => {
-        const row = Math.floor(index / cols);
-        const col = index % cols;
+        if (isBoundary(index)) return <div key={index} className={styles.emptyCell} />;
 
-        const rightIndex = index + 1;
-        const downIndex = index + cols;
-
-        const hasRightNeighbor = col < cols - 1 && !isBoundary(index) && !isBoundary(rightIndex);
-        const hasDownNeighbor = row < rows - 1 && !isBoundary(index) && !isBoundary(downIndex);
+        const intersectionNumber = index < 9 ? index - 5 : index - 7;
+        const intersectionData = trafficData[intersectionNumber];
 
         return (
           <div key={index} className={styles.gridItem}>
-            {/* Button (Hidden if boundary) */}
-            <button className={`${styles.gridButton} ${isBoundary(index) ? styles.hiddenButton : ''}`}>
-              {isBoundary(index) ? '' : index + 1}
+            <button className={styles.gridButton}>
+              <div className={styles.innerGrid}>
+                <div className={styles.cell}></div>
+                <div className={styles.cell}>
+                  {intersectionData?.vehicles?.north?.cars} 🚗<br />
+                  {intersectionData?.vehicles?.north?.accidents} ⚠️<br />
+                  {intersectionData?.vehicles?.north?.ambulances} 🚑<br />
+                  {intersectionData?.vehicles?.north?.schoolBuses} 🚌
+                </div>
+                <div className={styles.cell}></div>
+                <div className={styles.cell}>
+                  {intersectionData?.vehicles?.west?.cars} 🚗<br />
+                  {intersectionData?.vehicles?.west?.accidents} ⚠️<br />
+                  {intersectionData?.vehicles?.west?.ambulances} 🚑<br />
+                  {intersectionData?.vehicles?.west?.schoolBuses} 🚌
+                </div>
+                <div className={styles.centerCell}>{intersectionNumber}</div>
+                <div className={styles.cell}>
+                  {intersectionData?.vehicles?.east?.cars} 🚗<br />
+                  {intersectionData?.vehicles?.east?.accidents} ⚠️<br />
+                  {intersectionData?.vehicles?.east?.ambulances} 🚑<br />
+                  {intersectionData?.vehicles?.east?.schoolBuses} 🚌
+                </div>
+                <div className={styles.cell}></div>
+                <div className={styles.cell}>
+                  {intersectionData?.vehicles?.south?.cars} 🚗<br />
+                  {intersectionData?.vehicles?.south?.accidents} ⚠️<br />
+                  {intersectionData?.vehicles?.south?.ambulances} 🚑<br />
+                  {intersectionData?.vehicles?.south?.schoolBuses} 🚌
+                </div>
+                <div className={styles.cell}></div>
+              </div>
             </button>
-
-            {/* Horizontal Line (Only if both buttons are visible) */}
-            {hasRightNeighbor && <div className={styles.horizontalLine} />}
-
-            {/* Vertical Line (Only if both buttons are visible) */}
-            {hasDownNeighbor && <div className={styles.verticalLine} />}
           </div>
         );
       })}
