@@ -1,38 +1,14 @@
-import time
-import pins
-
-def main():
-    """Main function to handle user interaction."""
-    try:
-        pins.startup_sequence()
-        while True:
-            user_input = input("Enter pin position (e.g., 1A, 2B) to toggle or 'q' to quit: ").upper()
-            if user_input == 'Q':
-                break
-            elif user_input in pins.PIN_CONFIG:
-                pins.set_pin(user_input, True)
-                time.sleep(1)
-                pins.set_pin(user_input, False)
-            else:
-                print("Invalid input. Please enter a valid pin position.")
-    except KeyboardInterrupt:
-        print("\nProgram interrupted.")
-    finally:
-        pins.cleanup()
-        print("GPIO cleaned up. Goodbye!")
-
-if __name__ == "__main__":
-    main()import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 
 # Define GPIO pins in a structured way
 PIN_CONFIG = {
     '1A': 11, '1B': 12,  # GPIO17, GPIO18
-    '2A': 13, '2B': 16,  # GPIO27, GPIO23
+    '2A': 16, '2B': 13,  # GPIO27, GPIO23
     '3A': 15, '3B': 18,  # GPIO22, GPIO24
     '4A': 19, '4B': 22,  # GPIO10, GPIO25
     '5A': 21, '5B': 24,  # GPIO9, GPIO8
-    '6A': 23, '6B': 26   # GPIO11, GPIO7
+    '6A': 26, '6B': 23   # GPIO11, GPIO7        # Reverted in this configuration as soldering was reversed ;/
 }
 
 # Setup GPIO mode
@@ -71,11 +47,11 @@ def startup_sequence():
         time.sleep(1)
 
     # Test each pin one by one
-    # for position in PIN_CONFIG.keys():
-    #    GPIO.output(PIN_CONFIG[position], GPIO.HIGH)
-    #    time.sleep(1)
-    #    GPIO.output(PIN_CONFIG[position], GPIO.LOW)
-    #    time.sleep(0.5)
+    for position in PIN_CONFIG.keys():
+        GPIO.output(PIN_CONFIG[position], GPIO.HIGH)
+        time.sleep(1)
+        GPIO.output(PIN_CONFIG[position], GPIO.LOW)
+        time.sleep(0.5)
 
 if __name__ == "__main__":
     try:
