@@ -1,9 +1,9 @@
 import Image from "next/image";
-import Map from "../components/map/map";
+import Data from "../components/data/data"
 export default function Home() {
   return (
     <main>
-      <Map />
+      <Data />
     </main>
   );
 }
