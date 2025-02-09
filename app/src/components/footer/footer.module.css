@@ -22,13 +22,6 @@
     color: gray;
 }
 
-.footerTop {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    border-bottom: 1px solid gray;
-}
-
 .column {
     display: flex;
     flex-direction: column;
