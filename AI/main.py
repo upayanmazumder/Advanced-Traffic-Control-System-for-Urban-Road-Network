@@ -62,11 +62,10 @@ async def send_data(session, url, data):
 async def main():
     url = "https://api.ibreakstuff.upayan.dev/"
     config = load_config("config.json")
-    # Uncomment the following two lines if you want to use a video file.
-    video_path = "data/sample_video8.mp4"
-    cap = cv2.VideoCapture(video_path)
-    # cap = cv2.VideoCapture(1)  # using the default camera
-    # cap.set(cv2.CAP_PROP_FOCUS, 60)
+    # video_path = "data/sample_video8.mp4"                         # Uncomment this line to use a video file
+    # cap = cv2.VideoCapture(video_path)                            # Uncomment this line to use a video file
+    cap = cv2.VideoCapture(1)  # using the default camera           # Comment this line to use a video file
+    cap.set(cv2.CAP_PROP_FOCUS, 60)                                 # Comment this line to use a video file
     if not cap.isOpened():
         print("Error: Could not open video.")
         return
