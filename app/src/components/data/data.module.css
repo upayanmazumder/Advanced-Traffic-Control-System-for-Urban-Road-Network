@@ -1,10 +1,8 @@
-/* Dark theme with professional styling */
 .container {
     padding: 2rem;
     background-color: #121212;
     color: #e0e0e0;
     min-height: 100vh;
-    font-family: "Inter", sans-serif;
   }
   
   .title {
@@ -49,7 +47,7 @@
   }
   
   .summary:hover {
-    color: #00bcd4;
+    color: #77b3bc;
   }
   
   .arrow {
