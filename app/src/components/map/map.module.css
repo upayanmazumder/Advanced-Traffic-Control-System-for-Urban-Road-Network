@@ -55,14 +55,17 @@
   align-items: center;
   font-size: 0.9rem;
   color: #ffffff;
+  flex-direction: column;
+  gap: 0;
 }
 
 .centerCell {
   font-size: 1.4rem;
   font-weight: bold;
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 0 15px 10px rgba(43, 43, 43, 0.6);
 }

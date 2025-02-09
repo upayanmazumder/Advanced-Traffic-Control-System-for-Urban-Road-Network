@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import styles from './map.module.css';
+import { BiSolidBusSchool } from "react-icons/bi";
+import { FaCarCrash, FaAmbulance, FaCarSide  } from "react-icons/fa";
 
 export default function MapGrid() {
   const cols = 5;
@@ -40,31 +42,30 @@ export default function MapGrid() {
               <div className={styles.innerGrid}>
                 <div className={styles.cell}></div>
                 <div className={styles.cell}>
-                  {intersectionData?.vehicles?.north?.cars} 🚗<br />
-                  {intersectionData?.vehicles?.north?.accidents} ⚠️<br />
-                  {intersectionData?.vehicles?.north?.ambulances} 🚑<br />
-                  {intersectionData?.vehicles?.north?.schoolbuses} 🚌
+                  <p>{intersectionData?.vehicles?.north?.cars} <FaCarSide /> {intersectionData?.vehicles?.north?.accidents} <FaCarCrash/><br />
+                  {intersectionData?.vehicles?.north?.ambulances} <FaAmbulance/> {intersectionData?.vehicles?.north?.schoolbuses} <BiSolidBusSchool/>
+                  </p>
                 </div>
                 <div className={styles.cell}></div>
                 <div className={styles.cell}>
-                  {intersectionData?.vehicles?.west?.cars} 🚗<br />
-                  {intersectionData?.vehicles?.west?.accidents} ⚠️<br />
-                  {intersectionData?.vehicles?.west?.ambulances} 🚑<br />
-                  {intersectionData?.vehicles?.west?.schoolbuses} 🚌
+                <p>
+                  {intersectionData?.vehicles?.west?.cars} <FaCarSide /> {intersectionData?.vehicles?.west?.accidents} <FaCarCrash/><br />
+                  {intersectionData?.vehicles?.west?.ambulances} <FaAmbulance/> {intersectionData?.vehicles?.west?.schoolbuses} <BiSolidBusSchool/>
+                </p>
                 </div>
                 <div className={styles.centerCell}>{intersectionNumber}</div>
                 <div className={styles.cell}>
-                  {intersectionData?.vehicles?.east?.cars} 🚗<br />
-                  {intersectionData?.vehicles?.east?.accidents} ⚠️<br />
-                  {intersectionData?.vehicles?.east?.ambulances} 🚑<br />
-                  {intersectionData?.vehicles?.east?.schoolbuses} 🚌
+                <p>
+                  {intersectionData?.vehicles?.east?.cars} <FaCarSide /> {intersectionData?.vehicles?.east?.accidents} <FaCarCrash/><br />
+                  {intersectionData?.vehicles?.east?.ambulances} <FaAmbulance/> {intersectionData?.vehicles?.east?.schoolbuses} <BiSolidBusSchool/>
+                </p>
                 </div>
                 <div className={styles.cell}></div>
                 <div className={styles.cell}>
-                  {intersectionData?.vehicles?.south?.cars} 🚗<br />
-                  {intersectionData?.vehicles?.south?.accidents} ⚠️<br />
-                  {intersectionData?.vehicles?.south?.ambulances} 🚑<br />
-                  {intersectionData?.vehicles?.south?.schoolbuses} 🚌
+                <p>
+                  {intersectionData?.vehicles?.south?.cars} <FaCarSide /> {intersectionData?.vehicles?.south?.accidents} <FaCarCrash/><br />
+                  {intersectionData?.vehicles?.south?.ambulances} <FaAmbulance/> {intersectionData?.vehicles?.south?.schoolbuses} <BiSolidBusSchool/>
+                </p>
                 </div>
                 <div className={styles.cell}></div>
               </div>
