@@ -36,42 +36,49 @@ export default function MapGrid() {
         const intersectionNumber = index < 9 ? index - 5 : index - 7;
         const intersectionData = trafficData[intersectionNumber];
 
+        const borderColor = intersectionData?.green === "n-s" ? "red" : "green";
+
         return (
           <div key={index} className={styles.gridItem}>
-            <button className={styles.gridButton}>
+            <button 
+              className={styles.gridButton} 
+              style={{ borderColor }}
+            >
               <div className={styles.innerGrid}>
                 <div className={styles.cell}></div>
                 <div className={styles.cell}>
-                  <p>{intersectionData?.vehicles?.north?.cars} <FaCarSide /> {intersectionData?.vehicles?.north?.accidents} <FaCarCrash/><br />
-                  {intersectionData?.vehicles?.north?.ambulances} <FaAmbulance/> {intersectionData?.vehicles?.north?.schoolbuses} <BiSolidBusSchool/>
+                  <p>
+                    {intersectionData?.vehicles?.north?.cars} <FaCarSide /> {intersectionData?.vehicles?.north?.accidents} <FaCarCrash/><br />
+                    {intersectionData?.vehicles?.north?.ambulances} <FaAmbulance/> {intersectionData?.vehicles?.north?.schoolbuses} <BiSolidBusSchool/>
                   </p>
                 </div>
                 <div className={styles.cell}></div>
                 <div className={styles.cell}>
-                <p>
-                  {intersectionData?.vehicles?.west?.cars} <FaCarSide /> {intersectionData?.vehicles?.west?.accidents} <FaCarCrash/><br />
-                  {intersectionData?.vehicles?.west?.ambulances} <FaAmbulance/> {intersectionData?.vehicles?.west?.schoolbuses} <BiSolidBusSchool/>
-                </p>
+                  <p>
+                    {intersectionData?.vehicles?.west?.cars} <FaCarSide /> {intersectionData?.vehicles?.west?.accidents} <FaCarCrash/><br />
+                    {intersectionData?.vehicles?.west?.ambulances} <FaAmbulance/> {intersectionData?.vehicles?.west?.schoolbuses} <BiSolidBusSchool/>
+                  </p>
                 </div>
                 <div className={styles.centerCell}>{intersectionNumber}</div>
                 <div className={styles.cell}>
-                <p>
-                  {intersectionData?.vehicles?.east?.cars} <FaCarSide /> {intersectionData?.vehicles?.east?.accidents} <FaCarCrash/><br />
-                  {intersectionData?.vehicles?.east?.ambulances} <FaAmbulance/> {intersectionData?.vehicles?.east?.schoolbuses} <BiSolidBusSchool/>
-                </p>
+                  <p>
+                    {intersectionData?.vehicles?.east?.cars} <FaCarSide /> {intersectionData?.vehicles?.east?.accidents} <FaCarCrash/><br />
+                    {intersectionData?.vehicles?.east?.ambulances} <FaAmbulance/> {intersectionData?.vehicles?.east?.schoolbuses} <BiSolidBusSchool/>
+                  </p>
                 </div>
                 <div className={styles.cell}></div>
                 <div className={styles.cell}>
-                <p>
-                  {intersectionData?.vehicles?.south?.cars} <FaCarSide /> {intersectionData?.vehicles?.south?.accidents} <FaCarCrash/><br />
-                  {intersectionData?.vehicles?.south?.ambulances} <FaAmbulance/> {intersectionData?.vehicles?.south?.schoolbuses} <BiSolidBusSchool/>
-                </p>
+                  <p>
+                    {intersectionData?.vehicles?.south?.cars} <FaCarSide /> {intersectionData?.vehicles?.south?.accidents} <FaCarCrash/><br />
+                    {intersectionData?.vehicles?.south?.ambulances} <FaAmbulance/> {intersectionData?.vehicles?.south?.schoolbuses} <BiSolidBusSchool/>
+                  </p>
                 </div>
                 <div className={styles.cell}></div>
               </div>
             </button>
           </div>
         );
+        
       })}
     </div>
   );
