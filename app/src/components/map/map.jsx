@@ -43,28 +43,28 @@ export default function MapGrid() {
                   {intersectionData?.vehicles?.north?.cars} 🚗<br />
                   {intersectionData?.vehicles?.north?.accidents} ⚠️<br />
                   {intersectionData?.vehicles?.north?.ambulances} 🚑<br />
-                  {intersectionData?.vehicles?.north?.schoolBuses} 🚌
+                  {intersectionData?.vehicles?.north?.schoolbuses} 🚌
                 </div>
                 <div className={styles.cell}></div>
                 <div className={styles.cell}>
                   {intersectionData?.vehicles?.west?.cars} 🚗<br />
                   {intersectionData?.vehicles?.west?.accidents} ⚠️<br />
                   {intersectionData?.vehicles?.west?.ambulances} 🚑<br />
-                  {intersectionData?.vehicles?.west?.schoolBuses} 🚌
+                  {intersectionData?.vehicles?.west?.schoolbuses} 🚌
                 </div>
                 <div className={styles.centerCell}>{intersectionNumber}</div>
                 <div className={styles.cell}>
                   {intersectionData?.vehicles?.east?.cars} 🚗<br />
                   {intersectionData?.vehicles?.east?.accidents} ⚠️<br />
                   {intersectionData?.vehicles?.east?.ambulances} 🚑<br />
-                  {intersectionData?.vehicles?.east?.schoolBuses} 🚌
+                  {intersectionData?.vehicles?.east?.schoolbuses} 🚌
                 </div>
                 <div className={styles.cell}></div>
                 <div className={styles.cell}>
                   {intersectionData?.vehicles?.south?.cars} 🚗<br />
                   {intersectionData?.vehicles?.south?.accidents} ⚠️<br />
                   {intersectionData?.vehicles?.south?.ambulances} 🚑<br />
-                  {intersectionData?.vehicles?.south?.schoolBuses} 🚌
+                  {intersectionData?.vehicles?.south?.schoolbuses} 🚌
                 </div>
                 <div className={styles.cell}></div>
               </div>
