@@ -1,12 +1,12 @@
 import cv2
 import os
 from ultralytics import YOLO
+import random
 
 class VehicleDetector:
     def __init__(self, model_path='models/best.pt'):
         self.model_path = os.path.join(os.getcwd(), model_path)
         self.model = YOLO(self.model_path)
-
     def detect_vehicles(self, frame):
         results = self.model(frame)
         detections = []
@@ -19,5 +19,8 @@ class VehicleDetector:
                 class_name = class_names.get(cls, 'unknown')
                 if conf < 0.7:
                     continue
-                detections.append({'bbox': (x1, y1, x2, y2), 'confidence': conf, 'class': class_name})
+                detection = {'bbox': (x1, y1, x2, y2), 'confidence': conf, 'class': class_name}
+                if class_name == "ambulance":
+                    detection["speed"] = random.uniform(40, 80)
+                detections.append(detection)
         return detections
