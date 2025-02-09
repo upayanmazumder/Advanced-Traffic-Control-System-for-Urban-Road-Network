@@ -36,7 +36,7 @@ export default function MapGrid() {
         const intersectionNumber = index < 9 ? index - 5 : index - 7;
         const intersectionData = trafficData[intersectionNumber];
 
-        const borderColor = intersectionData?.green === "n-s" ? "red" : "green";
+        const borderColor = intersectionData?.green === "n-s" ? "black" : "gray";
 
         return (
           <div key={index} className={styles.gridItem}>
