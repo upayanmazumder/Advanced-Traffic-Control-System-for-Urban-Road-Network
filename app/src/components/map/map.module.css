@@ -1,0 +1,71 @@
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 columns */
+  grid-template-rows: repeat(4, 1fr); /* 4 rows */
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background-color: #121212; /* Dark theme */
+  justify-items: center;
+  align-items: center;
+  position: relative;
+}
+
+.gridItem {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.gridButton {
+  width: 60px;
+  height: 60px;
+  font-size: 1.2rem;
+  color: white;
+  background-color: #1e1e1e;
+  border: 2px solid #00d4ff; /* Cyan border */
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 2;
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.gridButton:hover {
+  transform: scale(1.1);
+  background-color: #00d4ff;
+  color: #121212;
+  border-color: #ff4081; /* Pink on hover */
+}
+
+/* Hide boundary buttons */
+.hiddenButton {
+  background: transparent !important;
+  border: none !important;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Connecting Lines */
+.horizontalLine {
+  position: absolute;
+  width: 50px;
+  height: 4px;
+  background-color: #4a4a4a;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+}
+
+.verticalLine {
+  position: absolute;
+  width: 4px;
+  height: 50px;
+  background-color: #4a4a4a;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+}
