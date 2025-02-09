@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import styles from './map.module.css';
 import { BiSolidBusSchool } from "react-icons/bi";
-import { FaCarCrash, FaAmbulance, FaCarSide  } from "react-icons/fa";
+import { FaCarCrash, FaAmbulance, FaCarSide } from "react-icons/fa";
 
 export default function MapGrid() {
   const cols = 5;
@@ -16,10 +16,17 @@ export default function MapGrid() {
   useEffect(() => {
     setGrid(Array.from({ length: totalCells }, (_, index) => index));
 
-    fetch('https://api.ibreakstuff.upayan.dev/traffic/signal-data')
-      .then((res) => res.json())
-      .then((data) => setTrafficData(data.data || {}))
-      .catch((err) => console.error('Error fetching traffic data:', err));
+    const fetchTrafficData = () => {
+      fetch('https://api.ibreakstuff.upayan.dev/traffic/signal-data')
+        .then((res) => res.json())
+        .then((data) => setTrafficData(data.data || {}))
+        .catch((err) => console.error('Error fetching traffic data:', err));
+    };
+
+    fetchTrafficData();
+    const intervalId = setInterval(fetchTrafficData, 5000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   const isBoundary = (index) => {
@@ -36,7 +43,7 @@ export default function MapGrid() {
         const intersectionNumber = index < 9 ? index - 5 : index - 7;
         const intersectionData = trafficData[intersectionNumber];
 
-        const borderColor = intersectionData?.green === "n-s" ? "black" : "gray";
+        const borderColor = intersectionData?.green === "n-s" ? "red" : "blue";
 
         return (
           <div key={index} className={styles.gridItem}>
@@ -78,7 +85,6 @@ export default function MapGrid() {
             </button>
           </div>
         );
-        
       })}
     </div>
   );
