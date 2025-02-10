@@ -1,7 +1,7 @@
 # Advanced Traffic Control System for Urban Road Network
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/upayanmazumder/Advanced-Traffic-Control-System-for-Urban-Road-Network)
-![GitHub license](https://img.shields.io/github/license/upayanmazumder/Advanced-Traffic-Control-System-for-Urban-Road-Network)
+![GitHub license](https://img.shields.io/badge/license-MIT-green)
 
 ## Overview
 The **Advanced Traffic Control System** is an AI-powered solution designed to optimize urban traffic flow. Developed by **Team iBreakStuff**, the project was a finalist at **YANTRA HACK'25** organized by [SW VIT](https://yantrahack.swvit.in/) and [IEEE CS](https://www.ieeecsvit.com/).
